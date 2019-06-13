@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { ButtonControl, Button } from "./buttons";
 
-const NewPlayerModal = styled.div`
+const ModalBackdropContainer = styled.div`
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 999;
-    background-color: #415041cc;
+    background-color: #7676767d;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,34 +18,29 @@ const NewPlayerModal = styled.div`
 const ModalContentContainer = styled.div`
     position: relative;
     width: 80%;
-    height: 300px;
+    max-width: 400px;
+    padding: 25px 10px;
     border-radius: 25px;
     background-color: #1d3e15;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+    box-shadow: 0 0 5px 0 #ddd;
 `;
 
-const AddPlayer = props => {
+const Modal = props => {
     return (
         <>
             {props.visable ? (
-                <NewPlayerModal >
+                <ModalBackdropContainer>
                     <ModalContentContainer>
-                        <input />
-                        <input />
-                        <input />
-                        <input />
-                        <ButtonControl>
-                            <Button onClick={props.done} >Add</Button>
-                            <Button onClick={props.done} >Cancel</Button>
-                        </ButtonControl>
+                        {props.children}
                     </ModalContentContainer>
-                </NewPlayerModal>
+                </ModalBackdropContainer>
             ) : null}
         </>
     );
 };
 
-export default AddPlayer;
+export default Modal;
