@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled from "styled-components";
+import { Router, Link } from "@reach/router";
+import Game from "./game";
+import NewGame from "./newgame";
+
+const Header = styled.header`
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 3rem;
+`;
+
+const Home = () => (
+    <>
+        <nav>
+            <Link to="newgame">New Game</Link>
+        </nav>
+        <div>Welcome</div>
+    </>
+);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <>
+            <Header>Mölky</Header>
+            <Router>
+                <Game path="game" />
+                <NewGame path="newgame" />
+                <Home path="/" />
+            </Router>
+        </>
+    );
 }
 
 export default App;
