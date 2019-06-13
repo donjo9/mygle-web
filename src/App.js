@@ -10,6 +10,7 @@ const Header = styled.header`
     font-size: 3rem;
 `;
 
+
 const Home = () => (
     <>
         <nav>
