@@ -1,7 +1,31 @@
 import React from "react";
 
-export default React.createContext({
-    players: [],
-    score: {},
-    history: []
-});
+const ADD_NEW_PLAYER = "ADD_NEW_PLAYER";
+
+const GameContext = React.createContext();
+export { GameContext };
+const reducer = (state, action) => {
+    switch (action.type) {
+        case ADD_NEW_PLAYER:
+            const players = [...state.players];
+            players.push(action.payload);
+            return { ...state, players };
+        default:
+            return state;
+    }
+};
+
+const GameStore = props => {
+    const stateHook = React.useReducer(reducer, {
+        players: ["Johnni", "Andreas", "Kathrine"],
+        score: {},
+        history: []
+    });
+    return (
+        <GameContext.Provider value={stateHook}>
+            {props.children}
+        </GameContext.Provider>
+    );
+};
+
+export default GameStore;
