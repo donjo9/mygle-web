@@ -16,6 +16,7 @@ const ButtonStyle = css`
 `;
 const LinkButton = styled(Link)`
     ${ButtonStyle}
+    display: inline-block;
 `;
 const Button = styled.button`
     ${ButtonStyle}
