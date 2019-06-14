@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
-
 import Modal from "./modal";
 import { ButtonControl, LinkButton, Button } from "./buttons";
+import { GameContext } from "./gamecontext";
+
 const Container = styled.section`
     display: grid;
 `;
@@ -48,7 +49,7 @@ const PlayerListItem = styled.li`
 const NewGame = () => {
     const [isAddingPlayer, setIsAddingPlayer] = useState(false);
     const [newPlayer, setNewPlayer] = useState("");
-    const [players, setPlayers] = useState(["Johnni", "Andreas"]);
+    const [gameState, dispatch] = useContext(GameContext);
 
     return (
         <Container>
@@ -61,7 +62,10 @@ const NewGame = () => {
                     <Button
                         onClick={() => {
                             if (newPlayer !== "") {
-                                setPlayers([...players, newPlayer]);
+                                dispatch({
+                                    type: "ADD_NEW_PLAYER",
+                                    payload: newPlayer
+                                });
                                 setNewPlayer("");
                                 setIsAddingPlayer(false);
                             }
@@ -81,7 +85,7 @@ const NewGame = () => {
                 <LinkButton to="/game">Start Game</LinkButton>
             </ButtonControl>
             <PlayerList>
-                {players.map(player => (
+                {gameState.players.map(player => (
                     <PlayerListItem key={player}>{player}</PlayerListItem>
                 ))}
             </PlayerList>
