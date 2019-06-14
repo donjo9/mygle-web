@@ -86,7 +86,9 @@ const NewGame = () => {
             </ButtonControl>
             <PlayerList>
                 {gameState.players.map(player => (
-                    <PlayerListItem key={player}>{player}</PlayerListItem>
+                    <PlayerListItem key={player.name}>
+                        {player.name}
+                    </PlayerListItem>
                 ))}
             </PlayerList>
         </Container>
