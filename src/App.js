@@ -23,7 +23,7 @@ const Home = () => (
 function App() {
     return (
         <>
-            <Header>Mölky</Header>
+            <Header>Mölkky</Header>
             <Router>
                 <Game path="game" />
                 <NewGame path="newgame" />
