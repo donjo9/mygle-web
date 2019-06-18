@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { Router } from "@reach/router";
+import { Router, navigate } from "@reach/router";
 import Game from "./game";
 import NewGame from "./newgame";
-import GameStore from "./gamecontext";
-import { LinkButton } from "./buttons";
+import GameStore, { GameContext, NEW_GAME } from "./gamecontext";
+import { LinkButton, Button } from "./buttons";
 
 const Header = styled.header`
     text-transform: uppercase;
     text-align: center;
     font-size: 3rem;
+    color: var(--brigthyarrow);
+    font-weight: 600;
 `;
 
 const HomeContainer = styled.div`
@@ -71,16 +73,25 @@ const RulesPage = () => {
 
 const MenuButton = { width: "80%" };
 
-const Home = () => (
-    <HomeContainer>
-        <LinkButton style={MenuButton} to="newgame">
-            New Game
-        </LinkButton>
-        <LinkButton style={MenuButton} to="rules">
-            Rules
-        </LinkButton>
-    </HomeContainer>
-);
+const Home = () => {
+    const [GameState, dispatch] = useContext(GameContext);
+    return (
+        <HomeContainer>
+            <Button
+                style={MenuButton}
+                onClick={() => {
+                    navigate("newgame");
+                    dispatch({ type: NEW_GAME });
+                }}
+            >
+                New Game
+            </Button>
+            <LinkButton style={MenuButton} to="rules">
+                Rules
+            </LinkButton>
+        </HomeContainer>
+    );
+};
 
 function App() {
     return (
