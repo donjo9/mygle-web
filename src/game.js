@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import { GameContext } from "./gamecontext";
+import { GameContext, SAVE_SCORE_FOR_PLAYER, NEW_GAME } from "./gamecontext";
 import styled from "styled-components";
+import { Button, LinkButton, ButtonControl } from "./buttons";
+import Modal from "./modal";
+import { navigate } from "@reach/router";
 
 const PinBoard = styled.div`
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-const PinRow = styled.div`
-    display: flex;
-    justify-content: center;
+    margin: 20px auto;
+    display: grid;
+    max-width: 312px;
+    justify-items: center;
+    grid-template-areas: ". t7 t7 t8 t8 t9 t9 ." "t5 t5 t11 t11 t12 t12 t6 t6" ". t3 t3 t10 t10 t4 t4 ." ". . t1 t1 t2 t2 . .";
 `;
 
 const Pin = styled.div`
@@ -20,42 +20,122 @@ const Pin = styled.div`
     text-align: center;
     padding: 2px;
     border-radius: 50%;
-    background-color: #fff;
-    color: black;
+    background-color: ${props =>
+        props.selected ? "var(--electronblue)" : "var(--mintleaf)"};
+    color: var(--citylight);
     line-height: 74px;
+    grid-area: ${props => "t" + props.pin};
     margin: 2px;
 `;
 
-const Game = () => {
-    const [currentPlayer, setCurrentPlayer] = useState(0);
-    const [gameState, dispatch] = useContext(GameContext);
+const ScoreBoard = styled.div`
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+`;
 
+const ScoreBoardLabel = styled.div`
+    padding: 0 5px;
+`;
+
+const NameDisplay = styled.div`
+    padding: 0 10px;
+`;
+const ScoreDisplay = styled.div`
+    text-align: center;
+    width: 74px;
+`;
+const LoosersList = styled.ul`
+    list-style: none;
+    color: var(--orangeville);
+    margin: 0;
+    padding: 0;
+    li {
+        text-align: center;
+    }
+`;
+
+const Pins = [7, 8, 9, 5, 11, 12, 6, 3, 10, 4, 1, 2];
+
+const Game = () => {
+    const [gameState, dispatch] = useContext(GameContext);
+    const [selectedPins, setSelectedPins] = useState([]);
+
+    const PinRows = Pins.map(pin => {
+        return (
+            <Pin
+                selected={selectedPins.includes(pin)}
+                pin={pin}
+                key={pin}
+                onClick={() => {
+                    const pins = [...selectedPins];
+                    const pinindex = pins.indexOf(pin);
+                    if (pinindex !== -1) {
+                        pins.splice(pinindex, 1);
+                    } else {
+                        pins.push(pin);
+                    }
+                    setSelectedPins(pins);
+                }}
+            >
+                {pin}
+            </Pin>
+        );
+    });
     return (
         <div>
-            Player: {gameState.players[currentPlayer].name} - Score:{" "}
-            {gameState.players[currentPlayer].score}/50
-            <PinBoard>
-                <PinRow>
-                    <Pin>7</Pin>
-                    <Pin>8</Pin>
-                    <Pin>9</Pin>
-                </PinRow>
-                <PinRow>
-                    <Pin>5</Pin>
-                    <Pin>11</Pin>
-                    <Pin>12</Pin>
-                    <Pin>6</Pin>
-                </PinRow>
-                <PinRow>
-                    <Pin>3</Pin>
-                    <Pin>10</Pin>
-                    <Pin>4</Pin>
-                </PinRow>
-                <PinRow>
-                    <Pin>1</Pin>
-                    <Pin>2</Pin>
-                </PinRow>
-            </PinBoard>
+            <Modal visable={gameState.winner}>
+                !! WINNER !!{" "}
+                {gameState.winner ? <div>{gameState.winner.name}</div> : null}
+                <ButtonControl>
+                    <LinkButton to="/">Home</LinkButton>
+                </ButtonControl>
+            </Modal>
+            <ScoreBoard>
+                <ScoreBoardLabel>Player: </ScoreBoardLabel>
+                <NameDisplay>
+                    {gameState.players[gameState.currentPlayer].name}
+                </NameDisplay>
+                <ScoreBoardLabel>
+                    {gameState.players[gameState.currentPlayer].strike
+                        ? [
+                              ...Array(
+                                  gameState.players[gameState.currentPlayer]
+                                      .strike
+                              )
+                          ].map((e, i) => (
+                              <React.Fragment key={i}>|</React.Fragment>
+                          ))
+                        : null}
+                </ScoreBoardLabel>
+
+                <ScoreBoardLabel>Score:</ScoreBoardLabel>
+                <ScoreDisplay>
+                    {gameState.players[gameState.currentPlayer].score}/50
+                </ScoreDisplay>
+            </ScoreBoard>
+            <PinBoard>{PinRows}</PinBoard>
+            <ButtonControl>
+                <Button
+                    onClick={() => {
+                        dispatch({
+                            type: SAVE_SCORE_FOR_PLAYER,
+                            payload: {
+                                score: selectedPins
+                            }
+                        });
+                        setSelectedPins([]);
+                    }}
+                >
+                    Save
+                </Button>
+                <LinkButton to="/">End Game</LinkButton>
+            </ButtonControl>
+            <LoosersList>
+                {gameState.loosers.map(player => (
+                    <li>{player.name}</li>
+                ))}
+            </LoosersList>
         </div>
     );
 };
