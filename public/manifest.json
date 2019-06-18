@@ -1,6 +1,6 @@
 {
-  "short_name": "Mölky App",
-  "name": "Mölky Game App",
+  "short_name": "Mölkky App",
+  "name": "Mölkky Score App",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,5 +11,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#415041",
-  "background_color": "#ffffff"
+  "background_color": "#2d3436"
 }
