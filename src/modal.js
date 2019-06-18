@@ -21,7 +21,7 @@ const ModalContentContainer = styled.div`
     max-width: 400px;
     padding: 25px 10px;
     border-radius: 25px;
-    background-color: #1d3e15;
+    background-color: var(--draculaorchid);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
