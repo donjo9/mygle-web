@@ -3,16 +3,18 @@ import { Link } from "@reach/router";
 
 const ButtonStyle = css`
     border: 0;
-    box-shadow: 0 0 5px 0 lightgreen;
+    box-shadow: 0 0 5px 0 var(--greendarnertail);
     margin: 10px;
-    background-color: #228343;
+    background-color: var(--electronblue);
     border-radius: 10px;
     padding: 5px;
-    color: #eee;
+    color: var(--citylight);
     max-width: 300px;
     min-width: 100px;
     text-decoration: none;
     text-align: center;
+    font-size: 16px;
+    font-family: var(--font-family);
 `;
 const LinkButton = styled(Link)`
     ${ButtonStyle}
