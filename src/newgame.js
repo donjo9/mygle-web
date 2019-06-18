@@ -11,7 +11,7 @@ const InputControl = styled.input`
     border: 0;
     padding: 5px 10px;
     margin: 15px 0px;
-    background-color: #228343;
+    background-color: var(--electronblue);
     color: white;
     font-size: 1rem;
 `;
@@ -82,14 +82,17 @@ const NewGame = () => {
                 <Button onClick={() => setIsAddingPlayer(true)}>
                     Add Player
                 </Button>
-                <LinkButton to="/game">Start Game</LinkButton>
+                <LinkButton to="/">Cancel</LinkButton>
+                {gameState.players.length > 1 ? (
+                    <LinkButton to="/game">Start Game</LinkButton>
+                ) : null}
             </ButtonControl>
             <PlayerList>
-                {gameState.players.map(player => (
+                {gameState.players.length > 0 ? gameState.players.map(player => (
                     <PlayerListItem key={player.name}>
                         {player.name}
                     </PlayerListItem>
-                ))}
+                )) : null}
             </PlayerList>
         </Container>
     );
