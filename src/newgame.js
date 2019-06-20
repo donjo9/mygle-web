@@ -78,7 +78,7 @@ const NewGame = () => {
                     }}
                 />
                 <ButtonControl>
-                    <Button onClick={() => AddNewPlayer}>Add</Button>
+                    <Button onClick={() => AddNewPlayer()}>Add</Button>
                     <Button onClick={() => setIsAddingPlayer(false)}>
                         Cancel
                     </Button>
