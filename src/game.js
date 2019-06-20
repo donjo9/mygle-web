@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { GameContext, SAVE_SCORE_FOR_PLAYER, NEW_GAME } from "./gamecontext";
+import React, { useState, useContext } from "react";
+import { GameContext, SAVE_SCORE_FOR_PLAYER } from "./gamecontext";
 import styled from "styled-components";
 import { Button, LinkButton, ButtonControl } from "./buttons";
 import Modal from "./modal";
-import { navigate } from "@reach/router";
+
 
 const PinBoard = styled.div`
     margin: 20px auto;
@@ -83,7 +83,7 @@ const Game = () => {
         );
     });
     return (
-        <div>
+        <div className="page">
             <Modal visable={gameState.winner}>
                 !! WINNER !!{" "}
                 {gameState.winner ? <div>{gameState.winner.name}</div> : null}

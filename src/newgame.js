@@ -52,7 +52,7 @@ const NewGame = () => {
     const [gameState, dispatch] = useContext(GameContext);
 
     return (
-        <Container>
+        <Container className="page">
             <Modal visable={isAddingPlayer}>
                 <InputControl
                     value={newPlayer}

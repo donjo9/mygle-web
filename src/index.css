@@ -5,7 +5,7 @@ body,
     font-family: var(--font-family);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
+    
     background-color: var(--draculaorchid);
     color: white;
     height: 100%;
@@ -19,9 +19,12 @@ html {
 
 body {
     max-width: 400px;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 #root {
+    width: 100%;
     display: grid;
     grid-template-rows: auto 1fr;
 }

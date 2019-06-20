@@ -19,7 +19,6 @@ const reducer = (state, action) => {
             return {
                 ...INITIAL_STATE
             };
-            break;
         case ADD_NEW_PLAYER:
             const newplayers = [...state.players];
             if (
@@ -33,7 +32,7 @@ const reducer = (state, action) => {
             return { ...state, players: newplayers };
         case SAVE_SCORE_FOR_PLAYER:
             const players = [...state.players];
-            const history = [...state.history];
+            //const history = [...state.history];
             let loosers = [...state.loosers];
             let playerRemoved = false;
             let winner = null;

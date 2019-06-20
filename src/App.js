@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Router, navigate } from "@reach/router";
+import { Router, navigate, Location } from "@reach/router";
 import Game from "./game";
 import NewGame from "./newgame";
 import GameStore, { GameContext, NEW_GAME } from "./gamecontext";
 import { LinkButton, Button } from "./buttons";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const Header = styled.header`
     text-transform: uppercase;
@@ -28,7 +29,7 @@ const RulesPageContainer = styled.div`
 `;
 const RulesPage = () => {
     return (
-        <RulesPageContainer>
+        <RulesPageContainer className="page">
             <LinkButton to="/" style={MenuButton}>
                 Home
             </LinkButton>
@@ -71,12 +72,44 @@ const RulesPage = () => {
     );
 };
 
+const TransitionRouter = styled(Router)`
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    &.fade-enter {
+        transform: translateX(100%);
+        opacity: 0.01;
+    }
+
+    &.fade-enter.fade-enter-active {
+        transform: translateX(0%);
+        opacity: 1;
+        transition-property: transform, opacity;
+        transition-duration: 350ms;
+        transition-timing-function: ease-in-out;
+    }
+
+    &.fade-exit {
+        transform: translateX(0%);
+        opacity: 1;
+        transition-property: transform, opacity;
+        transition-duration: 150ms;
+    }
+
+    &.fade-exit-active {
+        opacity: 0.01;
+        transform: translateX(-50%);
+    }
+`;
+
 const MenuButton = { width: "80%" };
 
 const Home = () => {
-    const [GameState, dispatch] = useContext(GameContext);
+    const [, dispatch] = useContext(GameContext);
     return (
-        <HomeContainer>
+        <HomeContainer className="page">
             <Button
                 style={MenuButton}
                 onClick={() => {
@@ -93,17 +126,44 @@ const Home = () => {
     );
 };
 
+const TransitionGroupContainer = styled(TransitionGroup)`
+    flex: 1;
+    position: relative;
+`;
+
+const FadeTransitionRouter = props => (
+    <Location>
+        {({ location }) => (
+            <TransitionGroupContainer>
+                <CSSTransition
+                    key={location.key}
+                    classNames="fade"
+                    timeout={380}
+                >
+                    {/* the only difference between a router animation and
+                any other animation is that you have to pass the
+                location to the router so the old screen renders
+                the "old location" */}
+                    <TransitionRouter location={location}>
+                        {props.children}
+                    </TransitionRouter>
+                </CSSTransition>
+            </TransitionGroupContainer>
+        )}
+    </Location>
+);
+
 function App() {
     return (
         <>
             <Header>Mölkky</Header>
             <GameStore>
-                <Router>
+                <FadeTransitionRouter>
                     <Game path="game" />
                     <NewGame path="newgame" />
                     <Home path="/" />
                     <RulesPage path="/rules" />
-                </Router>
+                </FadeTransitionRouter>
             </GameStore>
         </>
     );
