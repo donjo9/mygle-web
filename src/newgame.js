@@ -46,33 +46,39 @@ const PlayerListItem = styled.li`
         box-shadow: 1px 0 3px 0 white;
     }
 `;
+
 const NewGame = () => {
     const [isAddingPlayer, setIsAddingPlayer] = useState(false);
     const [newPlayer, setNewPlayer] = useState("");
     const [gameState, dispatch] = useContext(GameContext);
+    const AddNewPlayer = () => {
+        if (newPlayer !== "") {
+            dispatch({
+                type: "ADD_NEW_PLAYER",
+                payload: newPlayer
+            });
+            setNewPlayer("");
+            setIsAddingPlayer(false);
+        }
+    };
 
     return (
         <Container className="page">
             <Modal visable={isAddingPlayer}>
                 <InputControl
+                    autoFocus
                     value={newPlayer}
                     onChange={e => setNewPlayer(e.target.value)}
+                    onKeyDown={e => {
+                        if (e.key === "Enter") {
+                            AddNewPlayer();
+                        } else if (e.key === "Escape") {
+                            setIsAddingPlayer(false);
+                        }
+                    }}
                 />
                 <ButtonControl>
-                    <Button
-                        onClick={() => {
-                            if (newPlayer !== "") {
-                                dispatch({
-                                    type: "ADD_NEW_PLAYER",
-                                    payload: newPlayer
-                                });
-                                setNewPlayer("");
-                                setIsAddingPlayer(false);
-                            }
-                        }}
-                    >
-                        Add
-                    </Button>
+                    <Button onClick={() => AddNewPlayer}>Add</Button>
                     <Button onClick={() => setIsAddingPlayer(false)}>
                         Cancel
                     </Button>
@@ -88,11 +94,13 @@ const NewGame = () => {
                 ) : null}
             </ButtonControl>
             <PlayerList>
-                {gameState.players.length > 0 ? gameState.players.map(player => (
-                    <PlayerListItem key={player.name}>
-                        {player.name}
-                    </PlayerListItem>
-                )) : null}
+                {gameState.players.length > 0
+                    ? gameState.players.map(player => (
+                          <PlayerListItem key={player.name}>
+                              {player.name}
+                          </PlayerListItem>
+                      ))
+                    : null}
             </PlayerList>
         </Container>
     );
