@@ -38,4 +38,4 @@ jobs:
                   command: yarn build
             - run:
                   name: Deploy
-                  command: lftp sftp://${user}:${password}@${host} -e "mirror --reverse -v ./build ./molkky; quit"
+                  command: lftp sftp://$SFTP_USERNAME:$SFTP_PASSWORD@$SFTP_HOSTNAME -e "mirror --reverse -v ./build ./molkky; quit"
