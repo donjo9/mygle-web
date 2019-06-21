@@ -39,7 +39,5 @@ jobs:
             - run:
                   name: Deploy
                   command: |
-                      echo $SFTP_USERNAME
-                      echo $SFTP_PASSWORD
-                      echo $SFTP_HOSTNAME
-                      #lftp sftp://$SFTP_USERNAME:$SFTP_PASSWORD@$SFTP_HOSTNAME -e "mirror --reverse -v ./build ./molkky; quit"
+                      lftp -c "set sftp:auto-confirm yes; open -u $SFTP_USERNAME,$SFTP_PASSWORD@ sftp://$SFTP_HOSTNAME; mirror --reverse -v ./build ./molkky; quit"
+                      #lftp sftp://$SFTP_USERNAME:$SFTP_PASSWORD@$SFTP_HOSTNAME -c "sftp:auto-confirm yes"-e "mirror --reverse -v ./build ./molkky; quit"
