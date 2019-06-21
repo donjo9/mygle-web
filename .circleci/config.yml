@@ -8,10 +8,10 @@ jobs:
 
         steps:
             - run:
-              name: Install LFTP
-              command: |
-                  sudo apt-get update
-                  sudo apt-get install lftp
+                  name: Install LFTP
+                  command: |
+                      sudo apt-get update
+                      sudo apt-get install lftp
             - checkout
 
             # Download and cache dependencies
