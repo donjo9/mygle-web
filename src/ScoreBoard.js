@@ -36,7 +36,7 @@ const ScoreContent = styled.div`
     color: white;
     display: grid;
     align-content: center;
-    grid-template-columns: 1fr auto auto auto auto;
+    grid-template-columns: 1fr auto auto auto;
     width: 100%;
     > div {
         overflow: hidden;
@@ -46,11 +46,11 @@ const ScoreContent = styled.div`
         opacity: ${props => (props.visable ? 1 : 0.1)};
         transition: opacity 150ms ease-in;
     }
-    > div:nth-child(5n+1) {
+    > div:nth-child(4n + 1) {
         text-align: left;
     }
 
-    > div:nth-child(5n+5) {
+    > div:nth-child(4n + 4) {
         text-align: right;
     }
     position: relative;
@@ -65,12 +65,16 @@ const ScoreBoard = () => {
     let playerscore = p
         .sort((first, second) => second.score - first.score)
         .map(player => {
-            const strike = new Array(player.strike).fill("|");
+            const strike =
+                player.strike > 0
+                    ? "Strike: " + new Array(player.strike).fill("|")
+                    : null;
             return (
                 <React.Fragment key={player.name}>
                     <div>{player.name}</div>
-                    <div>Strike:</div>
-                    <div>{strike}</div>
+                    <div style={{ color: "var(--orangeville)" }}>
+                        {strike}
+                    </div>
                     <div>Score:</div>
                     <div>{player.score}</div>
                 </React.Fragment>

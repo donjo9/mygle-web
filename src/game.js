@@ -62,9 +62,8 @@ const Game = () => {
     const [gameState, dispatch] = useContext(GameContext);
     const [selectedPins, setSelectedPins] = useState([]);
 
-    if(gameState.players.length <= 0)
-    {
-        return <Redirect noThrow from="/game" to="/" />
+    if (gameState.players.length <= 0) {
+        return <Redirect noThrow from="/game" to="/" />;
     }
     const PinRows = Pins.map(pin => {
         return (
@@ -102,16 +101,12 @@ const Game = () => {
                 <NameDisplay>
                     {gameState.players[gameState.currentPlayer].name}
                 </NameDisplay>
-                <ScoreBoardLabel>
+                <ScoreBoardLabel style={{color: "var(--orangeville)"}}>
+                    
                     {gameState.players[gameState.currentPlayer].strike
-                        ? [
-                              ...Array(
-                                  gameState.players[gameState.currentPlayer]
-                                      .strike
-                              )
-                          ].map((e, i) => (
-                              <React.Fragment key={i}>|</React.Fragment>
-                          ))
+                        ? "Strike: " + new Array(
+                              gameState.players[gameState.currentPlayer].strike
+                          ).fill("|")
                         : null}
                 </ScoreBoardLabel>
 
@@ -149,7 +144,7 @@ const Game = () => {
             </ButtonControl>
             <LoosersList>
                 {gameState.loosers.map(player => (
-                    <li>{player.name}</li>
+                    <li key={player.name}>{player.name}</li>
                 ))}
             </LoosersList>
             <CurrentScoreBoard />
