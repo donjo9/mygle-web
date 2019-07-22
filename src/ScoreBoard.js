@@ -36,23 +36,22 @@ const ScoreContent = styled.div`
     color: white;
     display: grid;
     align-content: center;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto auto auto auto;
     width: 100%;
     > div {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        padding: 5px 10px;
+        padding: 5px 5px;
         opacity: ${props => (props.visable ? 1 : 0.1)};
         transition: opacity 150ms ease-in;
     }
-    > div:first-child {
+    > div:nth-child(5n+1) {
         text-align: left;
     }
 
-    > div:last-child {
+    > div:nth-child(5n+5) {
         text-align: right;
-        align-self: right;
     }
     position: relative;
     border-radius: 15px 0px 0px 15px;
@@ -71,7 +70,9 @@ const ScoreBoard = () => {
                 <React.Fragment key={player.name}>
                     <div>{player.name}</div>
                     <div>Strike: {strike}</div>
-                    <div>Score: {player.score}</div>
+                    <div>{strike}</div>
+                    <div>Score:</div>
+                    <div>{player.score}</div>
                 </React.Fragment>
             );
         });
