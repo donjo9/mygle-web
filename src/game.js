@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
-import { GameContext, SAVE_SCORE_FOR_PLAYER } from "./gamecontext";
+import { GameContext, SAVE_SCORE_FOR_PLAYER, UNDO_MOVE } from "./gamecontext";
 import styled from "styled-components";
 import { Button, LinkButton, ButtonControl } from "./buttons";
 import Modal from "./modal";
-import CurrentScoreBoard from './ScoreBoard';
-
+import CurrentScoreBoard from "./ScoreBoard";
 
 const PinBoard = styled.div`
     margin: 20px auto;
@@ -129,6 +128,16 @@ const Game = () => {
                     }}
                 >
                     Save
+                </Button>
+                <Button
+                    onClick={() => {
+                        dispatch({
+                            type: UNDO_MOVE
+                        });
+                        setSelectedPins([]);
+                    }}
+                >
+                    Undo
                 </Button>
                 <LinkButton to="/">End Game</LinkButton>
             </ButtonControl>

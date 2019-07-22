@@ -3,6 +3,7 @@ import React from "react";
 const ADD_NEW_PLAYER = "ADD_NEW_PLAYER";
 const SAVE_SCORE_FOR_PLAYER = "SAVE_SCORE_FOR_PLAYER";
 const NEW_GAME = "NEW_GAME";
+const UNDO_MOVE = "UNDEO_MOVE";
 
 const INITIAL_STATE = {
     players: [],
@@ -12,8 +13,15 @@ const INITIAL_STATE = {
     loosers: []
 };
 const GameContext = React.createContext();
-export { GameContext, ADD_NEW_PLAYER, SAVE_SCORE_FOR_PLAYER, NEW_GAME };
+export {
+    GameContext,
+    ADD_NEW_PLAYER,
+    SAVE_SCORE_FOR_PLAYER,
+    NEW_GAME,
+    UNDO_MOVE
+};
 const reducer = (state, action) => {
+    const history = [...state.history];
     switch (action.type) {
         case NEW_GAME:
             return {
@@ -32,7 +40,9 @@ const reducer = (state, action) => {
             return { ...state, players: newplayers };
         case SAVE_SCORE_FOR_PLAYER:
             const players = [...state.players];
-            //const history = [...state.history];
+            let newHistory = JSON.parse(JSON.stringify(state));
+            delete newHistory.history;
+            history.push(newHistory);
             let loosers = [...state.loosers];
             let playerRemoved = false;
             let winner = null;
@@ -71,10 +81,21 @@ const reducer = (state, action) => {
             }
             return {
                 ...state,
+                history,
                 loosers,
                 players,
                 winner,
                 currentPlayer: nextPlayer
+            };
+        case UNDO_MOVE:
+            if(history.length <= 0)
+            {
+                return state;
+            }
+            const newState = history.pop();
+            return {
+                ...newState,
+                history
             };
         default:
             return state;
@@ -83,8 +104,8 @@ const reducer = (state, action) => {
 
 const GameStore = props => {
     const stateHook = React.useReducer(reducer, {
-        ...INITIAL_STATE,
-        //players: [{ name: "Johnni", score: 0, strike: 0 }, { name: "Andreas", score: 0, strike: 0 }, { name: "Kathrine", score: 0, strike: 0 }]
+        ...INITIAL_STATE
+        ,players: [{ name: "Johnni", score: 0, strike: 0 }, { name: "Andreas", score: 0, strike: 0 }, { name: "Kathrine", score: 0, strike: 0 }]
     });
     return (
         <GameContext.Provider value={stateHook}>
