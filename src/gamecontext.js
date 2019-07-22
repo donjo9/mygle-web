@@ -105,7 +105,7 @@ const reducer = (state, action) => {
 const GameStore = props => {
     const stateHook = React.useReducer(reducer, {
         ...INITIAL_STATE
-        ,players: [{ name: "Johnni", score: 0, strike: 0 }, { name: "Andreas", score: 0, strike: 0 }, { name: "Kathrine", score: 0, strike: 0 }]
+        //,players: [{ name: "Johnni", score: 0, strike: 0 }, { name: "Andreas", score: 0, strike: 0 }, { name: "Kathrine", score: 0, strike: 0 }]
     });
     return (
         <GameContext.Provider value={stateHook}>
