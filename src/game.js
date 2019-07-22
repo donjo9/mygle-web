@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Button, LinkButton, ButtonControl } from "./buttons";
 import Modal from "./modal";
 import CurrentScoreBoard from "./ScoreBoard";
+import { Redirect } from "@reach/router";
 
 const PinBoard = styled.div`
     margin: 20px auto;
@@ -61,6 +62,10 @@ const Game = () => {
     const [gameState, dispatch] = useContext(GameContext);
     const [selectedPins, setSelectedPins] = useState([]);
 
+    if(gameState.players.length <= 0)
+    {
+        return <Redirect noThrow from="/game" to="/" />
+    }
     const PinRows = Pins.map(pin => {
         return (
             <Pin
@@ -82,6 +87,7 @@ const Game = () => {
             </Pin>
         );
     });
+
     return (
         <div className="page">
             <Modal visable={gameState.winner}>
