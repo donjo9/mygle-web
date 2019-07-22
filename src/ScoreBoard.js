@@ -44,7 +44,7 @@ const ScoreContent = styled.div`
         text-overflow: ellipsis;
         padding: 5px 10px;
         opacity: ${props => (props.visable ? 1 : 0.1)};
-        transition: opacity 150ms ease-in ;
+        transition: opacity 150ms ease-in;
     }
     > div:first-child {
         text-align: left;
@@ -61,7 +61,9 @@ const ScoreContent = styled.div`
 const ScoreBoard = () => {
     const [visable, setVisable] = useState(false);
     const [gameState] = useContext(GameContext);
-    const players = gameState.players
+
+    const p = JSON.parse(JSON.stringify(gameState.players));
+    let playerscore = p
         .sort((first, second) => second.score - first.score)
         .map(player => {
             const strike = new Array(player.strike).fill("|");
@@ -73,12 +75,13 @@ const ScoreBoard = () => {
                 </React.Fragment>
             );
         });
+
     return (
         <Container visable={visable}>
             <ScoreButton onClick={() => setVisable(!visable)}>
                 Score
             </ScoreButton>
-            <ScoreContent visable={visable}>{players}</ScoreContent>
+            <ScoreContent visable={visable}>{playerscore}</ScoreContent>
         </Container>
     );
 };
