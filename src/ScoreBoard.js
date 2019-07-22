@@ -69,7 +69,7 @@ const ScoreBoard = () => {
             return (
                 <React.Fragment key={player.name}>
                     <div>{player.name}</div>
-                    <div>Strike: {strike}</div>
+                    <div>Strike:</div>
                     <div>{strike}</div>
                     <div>Score:</div>
                     <div>{player.score}</div>
