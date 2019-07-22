@@ -3,6 +3,7 @@ import { GameContext, SAVE_SCORE_FOR_PLAYER } from "./gamecontext";
 import styled from "styled-components";
 import { Button, LinkButton, ButtonControl } from "./buttons";
 import Modal from "./modal";
+import CurrentScoreBoard from './ScoreBoard';
 
 
 const PinBoard = styled.div`
@@ -136,6 +137,7 @@ const Game = () => {
                     <li>{player.name}</li>
                 ))}
             </LoosersList>
+            <CurrentScoreBoard />
         </div>
     );
 };
