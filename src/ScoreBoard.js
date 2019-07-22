@@ -38,6 +38,7 @@ const ScoreContent = styled.div`
     align-content: center;
     grid-template-columns: 1fr auto auto auto;
     width: 100%;
+    padding: 10px;
     > div {
         overflow: hidden;
         white-space: nowrap;
